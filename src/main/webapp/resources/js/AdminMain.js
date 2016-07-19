@@ -1,10 +1,48 @@
 /**
- * 登陆页面Angular控制器
- * Created by Longder on 2016/7/18.
+ * 后台管理页控制器
+ * Created by Longder on 2016/7/19.
  */
 //页面App
-var app = angular.module("loginApp", []);
-//配置json
+var app = angular.module("mainApp", ['ngRoute']);
+//主控制器（页面包括菜单和导航）
+app.controller('MainController', function ($scope) {
+    //当前页标识
+    $scope.currentPageFlag = 0;
+    /**
+     * 页面跳转
+     * @param flag 页标识
+     */
+    $scope.changePage = function (flag) {
+        $scope.currentPageFlag = flag;
+    }
+});
+/**
+ * Dashboard页控制器
+ */
+app.controller('DashboardController', function ($scope) {
+    $scope.message = "DashBoard！";
+});
+/**
+ * 留言板管理页控制器
+ */
+app.controller('MessageManageController', function ($scope) {
+    $scope.message = "哼哼哈嘿";
+});
+/**
+ * 路由配置
+ */
+app.config(function ($routeProvider) {
+    $routeProvider.when("/", {//默认一开始是Dashboard
+        templateUrl: "dashboard",
+        controller: "DashboardController"
+    }).when("/messageManage", {
+        templateUrl: "messageManage",
+        controller: "MessageManageController"
+    });
+});
+/**
+ * json配置
+ */
 app.config(function ($httpProvider) {
     $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -52,39 +90,4 @@ app.config(function ($httpProvider) {
             ? param(data)
             : data;
     }];
-});
-//页面控制器
-app.controller('LoginController', function ($scope, $http){
-    //登录用户实体
-    $scope.user = null;
-    //错误信息
-    $scope.message = null;
-    $scope.login = function(valid,error){
-        //验证成功则发送Ajax请求进行登录
-        if(valid){
-            $http({
-                method: 'POST',
-                url: 'user/login',
-                data: {
-                    "userInfo":angular.toJson($scope.user)
-                }
-            }).success(function(data){
-                if(data.status==0){
-                    //登录成功进入主页面
-                    window.location.href = "admin/main";
-                }else{
-                    $scope.message = data.message;
-                }
-            });
-        }else{
-            if(error.required[0].$name=="loginName"){
-                alert("请填写用户名");
-                return;
-            }
-            if(error.required[0].$name=="password"){
-                alert("请填写密码");
-                return;
-            }
-        }
-    };
 });

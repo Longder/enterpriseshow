@@ -1,22 +1,15 @@
 package com.yuntuofu.enterpriseshow.entity;
 
+import java.io.Serializable;
+
 /**
- * 服务器返回的结果对象
- * Created by Longder on 2016/7/18.
+ * 服务器返回的结果
+ * Created by Longder on 2016/7/19.
  */
-public class WebResult {
-    /**
-     * 状态
-     */
+public class BusinessResult<T> implements Serializable {
     private int status;
-    /**
-     * 消息
-     */
     private String message;
-    /**
-     * 数据
-     */
-    private Object data;
+    private T data;
 
     public int getStatus() {
         return status;
@@ -34,11 +27,11 @@ public class WebResult {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

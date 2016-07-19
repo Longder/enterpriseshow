@@ -21,7 +21,7 @@
     <context:component-scan base-package="com.yuntuofu.enterpriseshow"/>
     <!--MVC控制层映射-->
     <mvc:annotation-driven/>
-    <mvc:default-servlet-handler />
+    <mvc:default-servlet-handler/>
     <!--整合Mybatis的SqlSessionFactoryBean-->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="basicDataSource"/>
@@ -36,4 +36,12 @@
         <property name="prefix" value="/WEB-INF/"/>
         <property name="suffix" value=".html"/>
     </bean>
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:exclude-mapping path="/admin"/>
+            <bean class="com.yuntuofu.enterpriseshow.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

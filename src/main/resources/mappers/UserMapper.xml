@@ -3,5 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuntuofu.enterpriseshow.dao.UserDao">
-
+    <!--根据用户名查询所有-->
+    <select id="findByLoginName" resultMap="userMap" parameterType="string">
+      SELECT * FROM TUSER WHERE LOGIN_NAME=#{loginName}
+    </select>
+    <!--结果集映射-->
+    <resultMap id="userMap" type="com.yuntuofu.enterpriseshow.entity.User">
+        <result column="ID" property="id"/>
+        <result column="LOGIN_NAME" property="loginName"/>
+        <result column="LOGIN_PASSWORD" property="loginPassword"/>
+    </resultMap>
 </mapper>

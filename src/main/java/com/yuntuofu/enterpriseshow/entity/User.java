@@ -1,10 +1,12 @@
 package com.yuntuofu.enterpriseshow.entity;
 
+import java.io.Serializable;
+
 /**
  * 用户实体
  * Created by Longder on 2016/7/18.
  */
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String loginName;
     private String loginPassword;
