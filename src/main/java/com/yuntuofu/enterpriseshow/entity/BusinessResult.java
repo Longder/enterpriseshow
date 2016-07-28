@@ -1,15 +1,18 @@
 package com.yuntuofu.enterpriseshow.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 
 /**
  * 服务器返回的结果
  * Created by Longder on 2016/7/19.
  */
-public class BusinessResult<T> implements Serializable {
+@Component
+public class BusinessResult implements Serializable {
     private int status;
     private String message;
-    private T data;
+    private Object data;
 
     public int getStatus() {
         return status;
@@ -27,11 +30,11 @@ public class BusinessResult<T> implements Serializable {
         this.message = message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

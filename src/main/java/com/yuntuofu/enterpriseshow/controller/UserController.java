@@ -29,8 +29,8 @@ public class UserController {
      * @return 统一返回BusinessResult，泛型为登录成功的User对象
      */
     @RequestMapping(value = "/login")
-    public BusinessResult<User> login(@RequestParam(value = "userInfo") String userInfo, HttpSession session) {
-        BusinessResult<User> result = userService.login(userInfo);
+    public BusinessResult login(@RequestParam(value = "userInfo") String userInfo, HttpSession session) {
+        BusinessResult result = userService.login(userInfo);
         //session绑定，service中已经处理了登录结果的封装，如果登录失败，result中的data将是null，相当于没绑定
         session.setAttribute("user", result.getData());
         return result;

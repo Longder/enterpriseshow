@@ -10,6 +10,28 @@
         <div class="panel panel-default">
             <div class="panel-heading">留言列表</div>
             <div class="panel-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>&nbsp;&nbsp;姓名：</label>
+                        <input type="text" class="form-control" ng-model="condition.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;&nbsp;时间选择：</label>
+                        <input readonly type="text" class="form-control timePicker" placeholder="开始时间" ng-model="condition.startTime"/>-
+                        <input readonly type="text" class="form-control timePicker" placeholder="结束时间" ng-model="condition.endTime"/>
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;&nbsp;是否已读：</label>
+                        <select ng-model="condition.hasRead" class="form-control">
+                            <option value="3">请选择</option>
+                            <option value="0">未读</option>
+                            <option value="1">已读</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="pull-right btn btn-primary" ng-click="clearCondition()">清空查询条件</button>
+                </form>
+            </div>
+            <div class="panel-body">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -17,7 +39,7 @@
                         <th>联系电话</th>
                         <th>邮箱</th>
                         <th>留言时间</th>
-                        <th>是否已回复</th>
+                        <th>是否已读</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -31,12 +53,33 @@
                             <span class="text-danger">否</span>
                         </td>
                         <td>
-                            <button class="btn btn-success">查看详情</button>
+                            <button class="btn btn-success">查看内容</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <!--分页-->
+                <nav>
+                    <ul class="pagination">
+                        <li>
+                            <a href="" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="">1</a></li>
+                        <li><a href="">2</a></li>
+                        <li><a href="">3</a></li>
+                        <li><a href="">4</a></li>
+                        <li><a href="">5</a></li>
+                        <li>
+                            <a href="" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
+        {{condition}}
     </div>
 </div>

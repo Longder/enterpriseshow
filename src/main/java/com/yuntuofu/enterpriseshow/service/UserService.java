@@ -4,6 +4,7 @@ import com.yuntuofu.enterpriseshow.entity.BusinessResult;
 import com.yuntuofu.enterpriseshow.entity.User;
 
 /**
+ * 与用户相关的业务层
  * Created by Longder on 2016/7/18.
  */
 public interface UserService {
@@ -13,5 +14,5 @@ public interface UserService {
      * @param userInfo
      * @return
      */
-    BusinessResult<User> login(String userInfo);
+    BusinessResult login(String userInfo);
 }

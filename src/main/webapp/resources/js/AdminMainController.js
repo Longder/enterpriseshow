@@ -3,14 +3,15 @@
  * Created by Longder on 2016/7/19.
  */
 //页面App
-var app = angular.module("mainApp", ['ngRoute']);
+var app = angular.module("mainApp", ["ngRoute"]);
+
 //主控制器（页面包括菜单和导航）
 app.controller('MainController', function ($scope) {
-    //当前页标识
+    //当前视图标识
     $scope.currentPageFlag = 0;
     /**
      * 页面跳转
-     * @param flag 页标识
+     * @param flag 视图标识
      */
     $scope.changePage = function (flag) {
         $scope.currentPageFlag = flag;
@@ -25,8 +26,60 @@ app.controller('DashboardController', function ($scope) {
 /**
  * 留言板管理页控制器
  */
-app.controller('MessageManageController', function ($scope) {
-    $scope.message = "哼哼哈嘿";
+app.controller('MessageManageController', function ($scope,$http) {
+    //总页数
+    $scope.totalPages = null;
+    //当前页
+    $scope.currentPage = 1;
+    //查询条件
+    $scope.condition = {
+        name: null,
+        startTime: null,
+        endTime: null,
+        hasRead: 3
+    };
+    /**
+     * 监听当前选中节点的变化，触发事件
+     */
+    $scope.$watch("condition", function () {
+
+    },true);
+
+    /**
+     * 根据条件和页数加载列表
+     */
+    var loadMessageList = function(page){
+        $http.post("message/loadMessages", {
+            "page": page,
+            "condition": angular.toJson($scope.condition)
+        }).success(function(data){
+
+        });
+    };
+    /**
+     * 清空查询条件点击事件
+     */
+    $scope.clearCondition = function(){
+        $scope.condition = {
+            name: null,
+            startTime: null,
+            endTime: null,
+            hasRead: 3
+        };
+    };
+
+
+    /**
+     * Bootstrap TimePicker
+     */
+    $(".timePicker").datetimepicker({
+        language: 'zh-CN',
+        format: 'yyyy-mm-dd hh:ii'
+    });
+    /**
+     * 页面加载完后要执行的方法
+     */
+    loadMessageList(1);
 });
 /**
  * 路由配置
