@@ -1,12 +1,13 @@
 package com.yuntuofu.enterpriseshow.controller;
 
 import com.yuntuofu.enterpriseshow.entity.BusinessResult;
+import com.yuntuofu.enterpriseshow.service.MessageService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 
 /**
  * 留言板管理功能控制器
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/admin/message")
 public class MessageController {
+    @Resource
+    private MessageService messageService;
+
     /**
      * 加载留言列表
      *
@@ -25,7 +29,7 @@ public class MessageController {
     @RequestMapping(value = "/loadMessages", method = RequestMethod.POST)
     public BusinessResult loadMessageList(@RequestParam(value = "page") String page,
                                           @RequestParam(value = "condition") String condition) {
-        System.out.println();
+        messageService.loadMessageList(page,condition);
         return null;
     }
 }
