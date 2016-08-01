@@ -42,7 +42,7 @@ app.controller('MessageManageController', function ($scope,$http) {
      * 监听当前选中节点的变化，触发事件
      */
     $scope.$watch("condition", function () {
-
+        loadMessageList($scope.currentPage);
     },true);
 
     /**
