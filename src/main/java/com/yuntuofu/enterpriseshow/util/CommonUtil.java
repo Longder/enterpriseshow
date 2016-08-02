@@ -43,4 +43,24 @@ public class CommonUtil {
         }
         return map;
     }
+
+    /**
+     * 计算总页数
+     *
+     * @param totalNumber 总条数
+     * @param pageSize    页容量
+     * @return 总页数
+     */
+    public static int getTotalPages(int totalNumber, int pageSize) {
+        if (pageSize == 0) {
+            return 0;
+        }
+        int totalPages;
+        if (totalNumber % pageSize == 0) {
+            totalPages = totalNumber / pageSize;
+        } else {
+            totalPages = totalNumber / pageSize + 1;
+        }
+        return totalPages;
+    }
 }

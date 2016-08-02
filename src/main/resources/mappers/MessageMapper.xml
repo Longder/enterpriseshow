@@ -4,17 +4,47 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuntuofu.enterpriseshow.dao.MessageDao">
     <select id="findByConditionAndPage" resultMap="messageMap" parameterType="java.util.Map">
-        SELECT * FROM tmessage WHERE 1=1
-        <if test="name!=null and name!=''">
-            AND NAME LIKE CONCAT('%',#{name},'%')
-        </if>
-        <if test="startTime!=null">
-            AND LEAVE_TIME <![CDATA[>=]]> #{startTime}
-        </if>
-        <if test="endTime!=null">
-            AND LEAVE_TIME <![CDATA[<=]]> #{endTime}
-        </if>
+        SELECT * FROM tmessage
+        <where>
+            <if test="name!=null and name!=''">
+                AND NAME LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="startTime!=null">
+                AND LEAVE_TIME <![CDATA[>=]]> #{startTime}
+            </if>
+            <if test="endTime!=null">
+                AND LEAVE_TIME <![CDATA[<=]]> #{endTime}
+            </if>
+            <if test="hasRead!=3">
+                AND HAS_READ = #{hasRead}
+            </if>
+        </where>
+        LIMIT #{start},#{limit}
     </select>
+    <select id="findTotalNumber" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(ID) FROM tmessage
+        <where>
+            <if test="name!=null and name!=''">
+                AND NAME LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="startTime!=null">
+                AND LEAVE_TIME <![CDATA[>=]]> #{startTime}
+            </if>
+            <if test="endTime!=null">
+                AND LEAVE_TIME <![CDATA[<=]]> #{endTime}
+            </if>
+            <if test="hasRead!=3">
+                AND HAS_READ = #{hasRead}
+            </if>
+        </where>
+    </select>
+    <select id="findNumbersNotRead">
+        SELECT COUNT(ID) FROM tmessage WHERE HAS_READ = 0
+    </select>
+    <update id="setHasRead" parameterType="int">
+      UPDATE tmessage SET HAS_READ = 1 WHERE ID = #{id}
+    </update>
+
     <resultMap id="messageMap" type="com.yuntuofu.enterpriseshow.entity.Message">
         <result column="ID" property="id"/>
         <result column="NAME" property="name"/>

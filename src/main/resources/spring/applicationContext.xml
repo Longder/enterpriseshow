@@ -10,6 +10,8 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
     <!--数据库链接配置文件-->
     <util:properties id="dbProps" location="classpath:db.properties"/>
+    <!--其他配置-->
+    <util:properties id="config" location="classpath:config.properties"/>
     <!--dbcp连接池-->
     <bean id="basicDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="#{dbProps.driverName}"/>
@@ -30,6 +32,10 @@
     <!--Mybatis DAO扫描-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.yuntuofu.enterpriseshow.dao"/>
+    </bean>
+    <!--注解式事务管理-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="basicDataSource"/>
     </bean>
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

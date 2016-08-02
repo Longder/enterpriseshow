@@ -13,7 +13,7 @@ app.controller('MainController', function ($scope) {
      * 页面跳转
      * @param flag 视图标识
      */
-    $scope.changePage = function (flag) {
+    $scope.changePageFlag = function (flag) {
         $scope.currentPageFlag = flag;
     }
 });
@@ -21,12 +21,21 @@ app.controller('MainController', function ($scope) {
  * Dashboard页控制器
  */
 app.controller('DashboardController', function ($scope) {
-    $scope.message = "DashBoard！";
+    //未读留言数
+    $scope.messageCount = null;
+    /**
+     * 读取未读留言数
+     */
+    var loadMessageNumbersNotRead = function () {
+        $http.post("message/loadNumbersNotRead").success(function (data) {
+
+        });
+    };
 });
 /**
  * 留言板管理页控制器
  */
-app.controller('MessageManageController', function ($scope,$http) {
+app.controller('MessageManageController', function ($scope, $http) {
     //总页数
     $scope.totalPages = null;
     //当前页
@@ -38,28 +47,40 @@ app.controller('MessageManageController', function ($scope,$http) {
         endTime: null,
         hasRead: 3
     };
+    //留言列表
+    $scope.messageList = null;
+    //正在查看的留言
+    $scope.currentMessageForShow = null;
+
     /**
      * 监听当前选中节点的变化，触发事件
      */
     $scope.$watch("condition", function () {
         loadMessageList($scope.currentPage);
-    },true);
+
+    }, true);
 
     /**
      * 根据条件和页数加载列表
      */
-    var loadMessageList = function(page){
+    var loadMessageList = function (page) {
         $http.post("message/loadMessages", {
             "page": page,
             "condition": angular.toJson($scope.condition)
-        }).success(function(data){
-
+        }).success(function (data) {
+            if (data.status == 0) {
+                $scope.messageList = data.data.list;
+                $scope.currentPage = parseInt(data.data.currentPage);
+                $scope.totalPages = new Array(data.data.totalPages);
+            } else {
+                alert("不要慌，出了点小意外");
+            }
         });
     };
     /**
      * 清空查询条件点击事件
      */
-    $scope.clearCondition = function(){
+    $scope.clearCondition = function () {
         $scope.condition = {
             name: null,
             startTime: null,
@@ -67,8 +88,47 @@ app.controller('MessageManageController', function ($scope,$http) {
             hasRead: 3
         };
     };
-
-
+    /**
+     * 打开留言详情
+     */
+    $scope.openMessageDetail = function (index) {
+        var id = $scope.messageList[index].id;
+        //将该条记录标记为已读
+        $http.post("message/readMessage", {
+            "id": id
+        }).success(function (data) {
+            if (data.status == 0) {
+                loadMessageList($scope.currentPage);
+            } else {
+                alert("不要慌，出了点小意外");
+            }
+        });
+        $scope.currentMessageForShow = $scope.messageList[index];
+    };
+    /**
+     * 分页页码点击事件
+     * @param page
+     */
+    $scope.toPage = function (page) {
+        //处理上一页、下一页的点击
+        loadMessageList(page);
+    };
+    /**
+     * 下一页
+     */
+    $scope.toNextPage = function () {
+        if ($scope.currentPage < $scope.totalPages.length) {
+            loadMessageList($scope.currentPage + 1);
+        }
+    };
+    /**
+     * 上一页
+     */
+    $scope.toPrePage = function () {
+        if ($scope.currentPage > 1) {
+            loadMessageList($scope.currentPage - 1);
+        }
+    };
     /**
      * Bootstrap TimePicker
      */

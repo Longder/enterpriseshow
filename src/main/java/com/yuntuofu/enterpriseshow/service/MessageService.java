@@ -9,9 +9,18 @@ import com.yuntuofu.enterpriseshow.entity.BusinessResult;
 public interface MessageService {
     /**
      * 根据页数和条件加载留言板信息
+     *
      * @param page
      * @param condition
      * @return
      */
-    BusinessResult loadMessageList(String page,String condition);
+    BusinessResult loadMessageList(String page, String condition);
+
+    /**
+     * 阅读一条留言（标识为已读状态）
+     *
+     * @param id 留言id
+     * @return
+     */
+    BusinessResult readMessage(String id);
 }

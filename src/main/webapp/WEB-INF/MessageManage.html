@@ -17,8 +17,10 @@
                     </div>
                     <div class="form-group">
                         <label>&nbsp;&nbsp;时间选择：</label>
-                        <input readonly type="text" class="form-control timePicker" placeholder="开始时间" ng-model="condition.startTime"/>-
-                        <input readonly type="text" class="form-control timePicker" placeholder="结束时间" ng-model="condition.endTime"/>
+                        <input readonly type="text" class="form-control timePicker" placeholder="开始时间"
+                               ng-model="condition.startTime"/>-
+                        <input readonly type="text" class="form-control timePicker" placeholder="结束时间"
+                               ng-model="condition.endTime"/>
                     </div>
                     <div class="form-group">
                         <label>&nbsp;&nbsp;是否已读：</label>
@@ -44,16 +46,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>大表哥</td>
-                        <td>13629421675</td>
-                        <td>longder1989@qq.com</td>
-                        <td>啊啊啊</td>
+                    <tr ng-repeat="message in messageList">
+                        <td>{{message.name}}</td>
+                        <td>{{message.phone}}</td>
+                        <td>{{message.email}}</td>
+                        <td>{{message.leaveTime| date:'yyyy-MM-dd HH:mm'}}</td>
                         <td>
-                            <span class="text-danger">否</span>
+                            <span ng-show="message.hasRead==0" class="text-danger">未读</span>
+                            <span ng-show="message.hasRead==1" class="text-success">已读</span>
                         </td>
                         <td>
-                            <button class="btn btn-success">查看内容</button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#messageDetail"
+                                    ng-click="openMessageDetail($index)">
+                                查看内容
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -61,18 +67,17 @@
                 <!--分页-->
                 <nav>
                     <ul class="pagination">
-                        <li>
-                            <a href="" aria-label="Previous">
+                        <li ng-class="{true:'disabled'}[currentPage==1]">
+                            <a href="" aria-label="Previous" ng-click="toPrePage()">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li>
-                            <a href="" aria-label="Next">
+                        <li ng-repeat="page in totalPages track by $index"
+                            ng-class="{true:'active'}[$index+1==currentPage]">
+                            <a href="" ng-click="toPage($index+1)">{{$index+1}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[currentPage==totalPages.length]">
+                            <a href="" aria-label="Next" ng-click="toNextPage()">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -81,5 +86,51 @@
             </div>
         </div>
         {{condition}}
+    </div>
+</div>
+<!-- 留言详情模态框 -->
+<div class="modal fade" id="messageDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="messageDetailLabel">留言详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>&nbsp;&nbsp;姓名</label>
+                            <input type="text" readonly class="form-control" ng-value="currentMessageForShow.name"/>
+                        </div>
+                        <div class="form-group">
+                            <label>&nbsp;&nbsp;联系电话</label>
+                            <input type="text" readonly class="form-control" ng-value="currentMessageForShow.phone"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>&nbsp;&nbsp;邮箱</label>
+                            <input type="text" readonly class="form-control" ng-value="currentMessageForShow.email"/>
+                        </div>
+                        <div class="form-group">
+                            <label>&nbsp;&nbsp;留言时间</label>
+                            <input type="text" readonly class="form-control"
+                                   ng-value="currentMessageForShow.leaveTime|date:'yyyy-MM-dd HH:mm'"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;&nbsp;内容</label>
+                    <textarea style="resize: none;" class="form-control" readonly rows="5">{{currentMessageForShow.content}}</textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
     </div>
 </div>

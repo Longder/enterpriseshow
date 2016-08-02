@@ -27,9 +27,25 @@ public class MessageController {
      * @return
      */
     @RequestMapping(value = "/loadMessages", method = RequestMethod.POST)
-    public BusinessResult loadMessageList(@RequestParam(value = "page") String page,
+    public BusinessResult loadMessageList(@RequestParam(value = "page", defaultValue = "1") String page,
                                           @RequestParam(value = "condition") String condition) {
-        messageService.loadMessageList(page,condition);
+        return messageService.loadMessageList(page, condition);
+    }
+
+    /**
+     * 阅读一条留言
+     *
+     * @param id 留言ID
+     * @return
+     */
+    @RequestMapping(value = "/readMessage", method = RequestMethod.POST)
+    public BusinessResult readMessage(@RequestParam(value = "id") String id) {
+        return messageService.readMessage(id);
+    }
+
+    @RequestMapping(value = "/loadNumbersNotRead", method = RequestMethod.POST)
+    public BusinessResult loadMessageNumbersNotRead() {
+        System.out.println();
         return null;
     }
 }
