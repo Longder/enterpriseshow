@@ -3,11 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
     <!--数据库链接配置文件-->
     <util:properties id="dbProps" location="classpath:db.properties"/>
     <!--其他配置-->
@@ -20,10 +18,8 @@
         <property name="password" value="#{dbProps.password}"/>
     </bean>
     <!--组件扫描-->
+    <!--TODO:扫描可以优化一下-->
     <context:component-scan base-package="com.yuntuofu.enterpriseshow"/>
-    <!--MVC控制层映射-->
-    <mvc:annotation-driven/>
-    <mvc:default-servlet-handler/>
     <!--整合Mybatis的SqlSessionFactoryBean-->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="basicDataSource"/>
@@ -37,17 +33,4 @@
     <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="basicDataSource"/>
     </bean>
-    <!--视图解析器-->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/"/>
-        <property name="suffix" value=".html"/>
-    </bean>
-    <!--拦截器-->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/admin/**"/>
-            <mvc:exclude-mapping path="/admin"/>
-            <bean class="com.yuntuofu.enterpriseshow.interceptor.LoginInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
 </beans>

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Created by Longder on 2016/7/18.
  */
 public class SpringTest {
-    private static ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:spring/applicationContext.xml");
+    private static ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:spring/spring-mvc.xml");
     @Test
     public void testContext(){
         System.out.println(ac);
