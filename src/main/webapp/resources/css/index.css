@@ -1,0 +1,47 @@
+/*全局字体*/
+* {
+    font-family: "微软雅黑";
+    font-size: 15px;
+}
+
+/*导航*/
+.navbar-nav > li > a {
+    padding-top: 50px;
+}
+
+.navbar-default {
+    border-bottom: none;
+}
+
+.carousel {
+    margin-top: 108px;
+}
+
+.banner {
+    background-color: #f6f6f6;
+    border-bottom: none;
+}
+
+.carousel-indicators .active {
+    background-color: #ec6941;
+}
+
+.carousel-indicators li {
+    background-color: #b5b5b5;
+}
+
+.title {
+    position: relative;
+}
+
+.title h1 {
+    font-family: "微软雅黑";
+    font-size: 34px;
+    color: #2a2a2a;
+    text-align: center;
+    background: url("../images/gongsijianjie.png") no-repeat 50%;
+}
+
+.nav-justified li{
+    border: none;
+}
